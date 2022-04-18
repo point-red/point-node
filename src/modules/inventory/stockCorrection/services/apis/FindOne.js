@@ -38,8 +38,10 @@ class FindOne {
     let statusData;
     if (stockCorrection.approvalStatus === -1) {
       statusData = 'rejected';
-    } else {
+    } else if (stockCorrection.approvalStatus === 1) {
       statusData = 'approved';
+    } else {
+      statusData = 'pending';
     }
     stockCorrection.push(statusData);
 
