@@ -35,6 +35,16 @@ class FindOne {
     if (stockCorrection.form.approvalStatus === 0) {
       await getStockCorrectionItemStock(this.tenantDatabase, stockCorrection);
     }
+    let statusData;
+    if (stockCorrection.form.approvalStatus === -1) {
+      statusData = 'rejected';
+    } else if (stockCorrection.form.approvalStatus === 1) {
+      statusData = 'approved';
+    } else {
+      statusData = 'pending';
+    }
+    // eslint-disable-next-line dot-notation
+    stockCorrection.form['statusData'] = statusData;
 
     return { stockCorrection };
   }
