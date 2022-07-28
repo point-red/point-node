@@ -36,6 +36,16 @@ class FindOne {
       await getStockCorrectionItemStock(this.tenantDatabase, stockCorrection);
     }
 
+    let statusData;
+    if (stockCorrection.form.approvalStatus === -1) {
+      statusData = 'rejected';
+    } else if (stockCorrection.form.approvalStatus === 1) {
+      statusData = 'approved';
+    } else {
+      statusData = 'rejected';
+    }
+    stockCorrection.push(statusData);
+
     return { stockCorrection };
   }
 }

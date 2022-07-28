@@ -19,6 +19,10 @@ router
     controller.findOne
   );
 
+// GET PRINT STOCK CORRECTION FOR TESTING
+router.route('/print/1').get(controller.printReject);
+router.route('/print/2').get(controller.printApproved);
+
 // REQUEST CREATING STOCK CORRECTION
 router
   .route('/')
