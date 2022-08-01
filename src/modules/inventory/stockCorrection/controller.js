@@ -1,4 +1,6 @@
 const httpStatus = require('http-status');
+const fs = require('fs');
+const pdf = require('pdf-creator-node');
 const catchAsync = require('@src/utils/catchAsync');
 const apiServices = require('./services/apis');
 
@@ -164,6 +166,23 @@ const deleteFormRejectByToken = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send({ data: stockCorrection, meta: { projectName: project.name } });
 });
 
+const generatePdf = catchAsync(async (req, res) => {
+  const {
+    currentTenantDatabase,
+    params: { stockCorrectionId },
+  } = req;
+  const {document, options} = await new apiServices.GeneratePdf(currentTenantDatabase, stockCorrectionId).call();
+
+  pdf.create(document, options).then((stream) => {
+    const file = fs.createReadStream(stream.path);
+    const stat = fs.statSync(stream.path);
+    res.setHeader('Content-Length', stat.size);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=stock-correction.pdf`);
+    return file.pipe(res);
+  });
+});
+
 module.exports = {
   findAll,
   findOne,
@@ -178,4 +197,5 @@ module.exports = {
   deleteFormApproveByToken,
   deleteFormReject,
   deleteFormRejectByToken,
+  generatePdf,
 };
