@@ -164,6 +164,16 @@ const deleteFormRejectByToken = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send({ data: stockCorrection, meta: { projectName: project.name } });
 });
 
+const print = catchAsync(async (req, res) => {
+  const {
+    currentTenantDatabase,
+    params: { stockCorrectionId },
+    headers: { tenant },
+  } = req;
+  const pdf = await new apiServices.Print(currentTenantDatabase, stockCorrectionId, tenant).call();
+  res.status(httpStatus.OK).send(pdf);
+});
+
 module.exports = {
   findAll,
   findOne,
@@ -178,4 +188,5 @@ module.exports = {
   deleteFormApproveByToken,
   deleteFormReject,
   deleteFormRejectByToken,
+  print,
 };

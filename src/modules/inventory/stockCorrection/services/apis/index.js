@@ -11,6 +11,7 @@ const DeleteFormRequest = require('./DeleteFormRequest');
 const FindAll = require('./FindAll');
 const FindOne = require('./FindOne');
 const UpdateForm = require('./UpdateForm');
+const Print = require('./Print');
 
 module.exports = {
   CreateFormRequest,
@@ -26,4 +27,5 @@ module.exports = {
   FindAll,
   FindOne,
   UpdateForm,
+  Print,
 };

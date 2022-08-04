@@ -113,4 +113,13 @@ router
     controller.updateForm
   );
 
+router
+  .route('/:stockCorrectionId/print')
+  .get(
+    celebrate(requestValidations.requireAuth),
+    celebrate(requestValidations.requireStockCorrectionId),
+    auth('read stock correction'),
+    controller.print
+  );
+
 module.exports = router;
