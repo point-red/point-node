@@ -1,8 +1,10 @@
+const httpStatus = require('http-status');
 const fs = require('fs/promises');
 const path = require('path');
 const moment = require('moment');
 const htmlToPdf = require('html-pdf-node');
 const database = require('@src/models');
+const ApiError = require('@src/utils/ApiError');
 const GetCurrentStock = require('../../../services/GetCurrentStock');
 
 const { Project } = database.main;
@@ -39,6 +41,10 @@ class Print {
         },
       ],
     });
+
+    if (!stockCorrection) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Stock correction is not exist');
+    }
 
     const settingLogo = await this.tenantDatabase.SettingLogo.findOne();
     const project = await Project.findOne({ where: { code: this.tenant } });
