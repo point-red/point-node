@@ -91,7 +91,7 @@ class Print {
 
     pdfBody = pdfBody.replace('{{items}}', itemsHtml);
     pdfBody = pdfBody.replace('{{date}}', moment(stockCorrection.form.date).format('DD MMMM YYYY'));
-    pdfBody = pdfBody.replace('{{warehouse}}', stockCorrection.warehouse.name || '-');
+    pdfBody = pdfBody.replace('{{warehouse}}', stockCorrection.warehouse.name);
     pdfBody = pdfBody.replace('{{address}}', stockCorrection.warehouse.address || '-');
     pdfBody = pdfBody.replace('{{phone}}', stockCorrection.warehouse.phone || '-');
     pdfBody = pdfBody.replace('{{createdBy}}', stockCorrection.form.createdByUser.fullName);

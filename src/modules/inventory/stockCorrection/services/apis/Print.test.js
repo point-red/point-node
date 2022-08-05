@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const tenantDatabase = require('@src/models').tenant;
 const ApiError = require('@src/utils/ApiError');
 const factory = require('@root/tests/utils/factory');
+const { SettingLogo, Form } = require('@src/models').tenant;
 const Print = require('./Print');
 
 describe('Print Stock Correction', () => {
@@ -27,6 +28,31 @@ describe('Print Stock Correction', () => {
     it("return stock correction's print data", async () => {
       const tenant = 'tenant_test';
       const stockCorrectionId = stockCorrection.id;
+      const print = await new Print(tenantDatabase, stockCorrectionId, tenant).call();
+
+      expect(print).toBeInstanceOf(Buffer);
+    });
+
+    it("return stock correction's print data when tenant has setting logo", async () => {
+      const publicUrl =
+        'https://pointnode.s3.ap-southeast-1.amazonaws.com/demo1234/settingLogo/70e552c4-3ecd-4058-a204-263ff1e35adf.png';
+      await SettingLogo.create({
+        createdBy: 1,
+        path: 'logo',
+        publicUrl,
+      });
+
+      const tenant = 'tenant_test';
+      const stockCorrectionId = stockCorrection.id;
+      const print = await new Print(tenantDatabase, stockCorrectionId, tenant).call();
+
+      expect(print).toBeInstanceOf(Buffer);
+    });
+
+    it("return stock correction's print data when stock correction is cancelled", async () => {
+      const tenant = 'tenant_test';
+      const stockCorrectionId = stockCorrection.id;
+      await Form.update({ approvalStatus: -1 }, { where: { formableId: stockCorrectionId } });
       const print = await new Print(tenantDatabase, stockCorrectionId, tenant).call();
 
       expect(print).toBeInstanceOf(Buffer);
