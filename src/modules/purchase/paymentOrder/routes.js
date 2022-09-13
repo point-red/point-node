@@ -16,4 +16,12 @@ router
     controller.createPaymentOrder
   );
 
+// GET ALL PAYMENT ORDER
+router.route('/').get(
+  celebrate(requestValidations.requireAuth),
+  celebrate(requestValidations.getPaymentOrderListParams),
+  auth('read payment order'),
+  controller.findAllPaymentOrder
+);
+
 module.exports = router;

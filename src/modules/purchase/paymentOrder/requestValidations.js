@@ -42,7 +42,19 @@ const createPaymentOrder = {
   }),
 };
 
+const getPaymentOrderListParams = {
+  query: Joi.object({
+    dateFrom: Joi.date().iso().allow(null),
+    dateTo: Joi.date().iso().allow(null),
+    approvalStatus: Joi.string().valid('rejected', 'approved', 'pending').allow(null),
+    doneStatus: Joi.string().valid('canceled', 'done', 'pending').allow(null),
+    limit: Joi.number().allow(null),
+    page: Joi.number().allow(null),
+  }),
+};
+
 module.exports = {
   requireAuth,
   createPaymentOrder,
+  getPaymentOrderListParams,
 };
