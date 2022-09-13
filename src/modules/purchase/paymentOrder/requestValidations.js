@@ -48,6 +48,7 @@ const getPaymentOrderListParams = {
     dateTo: Joi.date().iso().allow(null),
     approvalStatus: Joi.string().valid('rejected', 'approved', 'pending').allow(null),
     doneStatus: Joi.string().valid('canceled', 'done', 'pending').allow(null),
+    filterLike: Joi.string().allow(null),
     limit: Joi.number().allow(null),
     page: Joi.number().allow(null),
   }),

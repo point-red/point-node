@@ -13,6 +13,9 @@ describe('Payment Order - FindAll', () => {
 
     it('return expected payment orders with query', async () => {
       let queries = {
+        filterLike: JSON.stringify({
+          'form.number': 'PP',
+        }),
         dateFrom: '2022-09-11',
         dateTo: '2022-09-13',
         approvalStatus: 'pending',

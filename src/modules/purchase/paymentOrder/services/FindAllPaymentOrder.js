@@ -73,6 +73,12 @@ function generateFilter(queries) {
   const filterFormStatus = generateFilterFormStatus(queries.approvalStatus, queries.doneStatus);
   filter[Op.and] = [...filter[Op.and], ...filterFormStatus];
 
+  // like
+  const filterLike = generateFilterLike(queries.filterLike);
+  if (filterLike.length > 0) {
+    filter[Op.and] = [...filter[Op.and], { [Op.or]: filterLike }];
+  }
+
   return filter;
 }
 
@@ -129,6 +135,25 @@ function generateFilterFormStatus(approvalStatus, doneStatus) {
   if (approvalStatus !== undefined) {
     result.push({ '$form.approval_status$': approvalStatusses[approvalStatus] });
   }
+
+  return result;
+}
+
+function generateFilterLike(likeQueries) {
+  if (!likeQueries) {
+    return [];
+  }
+
+  const filtersObject = JSON.parse(likeQueries);
+  const filterKeys = Object.keys(filtersObject);
+
+  const result = filterKeys.map((key) => {
+    const likeKey = key.split('.').length > 1 ? `$${key}$` : key;
+
+    return {
+      [likeKey]: { [Op.substring]: filtersObject[key] || '' },
+    };
+  });
 
   return result;
 }
