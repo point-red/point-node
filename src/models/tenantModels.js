@@ -18,6 +18,7 @@ const modelPaths = [
   '/master/models/user.model.js',
   '/master/models/userWarehouse.model.js',
   '/master/models/warehouse.model.js',
+  '/master/models/supplier.model.js',
   // accounting
   '/accounting/models/journal.model.js',
   '/accounting/models/chartOfAccount.model.js',
@@ -52,6 +53,19 @@ const modelPaths = [
   '/sales/salesOrder/models/salesOrderItem.model.js',
   // pos
   '/pos/models/posBill.model.js',
+  // purchase
+  '/purchase/models/purchaseDownPayment.model.js',
+  '/purchase/models/purchaseInvoice.model.js',
+  '/purchase/models/purchaseInvoiceOther.model.js',
+  '/purchase/models/purchaseReturn.model.js',
+  // purchase/paymentOrder
+  '/purchase/paymentOrder/models/paymentOrder.model.js',
+  '/purchase/paymentOrder/models/paymentOrderDownPayment.model.js',
+  '/purchase/paymentOrder/models/paymentOrderHistory.model.js',
+  '/purchase/paymentOrder/models/paymentOrderInvoice.model.js',
+  '/purchase/paymentOrder/models/paymentOrderOther.model.js',
+  '/purchase/paymentOrder/models/paymentOrderReturn.model.js',
+  '/purchase/paymentOrder/models/purchaseInvoiceDone.model.js',
   // plugin/pinpoint
   '/plugin/pinPoint/salesVisitation.model.js',
   '/plugin/pinPoint/salesVisitationDetail.model.js',
