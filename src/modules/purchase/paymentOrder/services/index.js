@@ -1,7 +1,11 @@
 const CreatePaymentOrder = require('./CreatePaymentOrder');
-const FindAll = require('./FindAllPaymentOrder');
+const FindAllPaymentOrder = require('./FindAllPaymentOrder');
+const CreatePaymentOrderApprove = require('./CreatePaymentOrderApprove');
+const CreatePaymentOrderReject = require('./CreatePaymentOrderReject');
 
 module.exports = {
   CreatePaymentOrder,
-  FindAll,
+  FindAllPaymentOrder,
+  CreatePaymentOrderApprove,
+  CreatePaymentOrderReject,
 };

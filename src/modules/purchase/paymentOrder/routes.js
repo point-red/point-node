@@ -17,11 +17,34 @@ router
   );
 
 // GET ALL PAYMENT ORDER
-router.route('/').get(
-  celebrate(requestValidations.requireAuth),
-  celebrate(requestValidations.getPaymentOrderListParams),
-  auth('read payment order'),
-  controller.findAllPaymentOrder
-);
+router
+  .route('/')
+  .get(
+    celebrate(requestValidations.requireAuth),
+    celebrate(requestValidations.getPaymentOrderListParams),
+    auth('read payment order'),
+    controller.findAllPaymentOrder
+  );
+
+// APPROVE CREATING PAYMENT ORDER
+router
+  .route('/:paymentOrderId/approve')
+  .patch(
+    celebrate(requestValidations.requireAuth),
+    celebrate(requestValidations.requirePaymentOrderId),
+    auth('approve payment order'),
+    controller.createPaymentOrderApprove
+  );
+
+// REJECT CREATING PAYMENT ORDER
+router
+  .route('/:paymentOrderId/reject')
+  .patch(
+    celebrate(requestValidations.requireAuth),
+    celebrate(requestValidations.requirePaymentOrderId),
+    celebrate(requestValidations.createPaymentOrderReject),
+    auth('approve payment order'),
+    controller.createPaymentOrderReject
+  );
 
 module.exports = router;

@@ -6,6 +6,12 @@ const requireAuth = {
   }).unknown(true),
 };
 
+const requirePaymentOrderId = {
+  params: {
+    paymentOrderId: Joi.number().required(),
+  },
+};
+
 const createPaymentOrder = {
   body: Joi.object({
     paymentType: Joi.string().required(),
@@ -54,8 +60,16 @@ const getPaymentOrderListParams = {
   }),
 };
 
+const createPaymentOrderReject = {
+  body: Joi.object({
+    reason: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   requireAuth,
+  requirePaymentOrderId,
   createPaymentOrder,
   getPaymentOrderListParams,
+  createPaymentOrderReject,
 };
