@@ -12,7 +12,7 @@ router
   .post(
     celebrate(requestValidations.requireAuth),
     celebrate(requestValidations.createPaymentOrder),
-    auth('create payment order'),
+    auth(),
     controller.createPaymentOrder
   );
 
@@ -22,7 +22,7 @@ router
   .get(
     celebrate(requestValidations.requireAuth),
     celebrate(requestValidations.getPaymentOrderListParams),
-    auth('read payment order'),
+    auth(),
     controller.findAllPaymentOrder
   );
 
@@ -32,7 +32,7 @@ router
   .patch(
     celebrate(requestValidations.requireAuth),
     celebrate(requestValidations.requirePaymentOrderId),
-    auth('approve payment order'),
+    auth(),
     controller.createPaymentOrderApprove
   );
 
@@ -43,7 +43,7 @@ router
     celebrate(requestValidations.requireAuth),
     celebrate(requestValidations.requirePaymentOrderId),
     celebrate(requestValidations.createPaymentOrderReject),
-    auth('approve payment order'),
+    auth(),
     controller.createPaymentOrderReject
   );
 
