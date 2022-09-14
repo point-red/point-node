@@ -120,21 +120,13 @@ class CreatePaymentOrder {
 
       if (others.length > 0) {
         for (const other of others) {
-          const purchaseInvoiceOther = await this.tenantDatabase.PurchaseInvoiceOther.create(
+          await this.tenantDatabase.PaymentOrderOther.create(
             {
-              purchaseInvoiceId: 1, // --> sementara hardcode
+              paymentOrderId: paymentOrder.id,
               chartOfAccountId: other.coaId,
               allocationId: other.allocationId,
               amount: other.amount,
               notes: other.notes,
-            },
-            { transaction }
-          );
-
-          await this.tenantDatabase.PaymentOrderOther.create(
-            {
-              paymentOrderId: paymentOrder.id,
-              purchaseInvoiceOtherId: purchaseInvoiceOther.id,
             },
             { transaction }
           );
@@ -166,11 +158,10 @@ async function validate(tenantDatabase, createPaymentOrderDto) {
     totalDownPaymentAmount,
     totalReturnAmount,
     totalOtherAmount,
-    totalAmount,
   } = createPaymentOrderDto;
-  let totalAccumulatedInvoice = 0
-  let totalAccumulatedDownPayment = 0
-  let totalAccumulatedReturn = 0
+  let totalAccumulatedInvoice = 0;
+  let totalAccumulatedDownPayment = 0;
+  let totalAccumulatedReturn = 0;
   let totalAccumulatedOther = 0;
 
   const supplierData = await tenantDatabase.Supplier.findOne({ where: { id: supplierId } });
@@ -222,13 +213,6 @@ async function validate(tenantDatabase, createPaymentOrderDto) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Purchase return reference not found');
     }
 
-    // if (returnVal.amount > returnData.remaining) {
-    //   throw new ApiError(
-    //     httpStatus.BAD_REQUEST,
-    //     `available amount in purchase return ${returnVal.id} lower than inputted amount`
-    //   );
-    // }
-
     totalAccumulatedReturn += returnVal.amount;
   }
 
@@ -252,13 +236,6 @@ async function validate(tenantDatabase, createPaymentOrderDto) {
   if (totalDownPaymentAmount + totalReturnAmount > totalInvoiceAmount) {
     throw new ApiError(httpStatus.BAD_REQUEST, `Total invoice must be greater than total down payment + total return`);
   }
-
-  // if (totalAmount != (totalInvoiceAmount - (totalReturnAmount + totalDownPaymentAmount))) {
-  //   throw new ApiError(
-  //     httpStatus.BAD_REQUEST,
-  //     `Total amount must fit the formula (total invoice - (total down payment + total return))`
-  //   );
-  // }
 }
 
 async function getFormIncrement(tenantDatabase, currentDate) {
