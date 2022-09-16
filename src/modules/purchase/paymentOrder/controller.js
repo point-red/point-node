@@ -2,6 +2,15 @@ const httpStatus = require('http-status');
 const catchAsync = require('@src/utils/catchAsync');
 const services = require('./services');
 
+const findPaymentOrderReference = catchAsync(async (req, res) => {
+  const {
+    currentTenantDatabase,
+    params: { supplierId },
+  } = req;
+  const paymentOrderRef = await new services.FindPaymentOrderReference(currentTenantDatabase, supplierId).call();
+  res.status(httpStatus.OK).send({ message: 'Success', data: paymentOrderRef });
+});
+
 const createPaymentOrder = catchAsync(async (req, res) => {
   const { currentTenantDatabase, user: maker, body: createPaymentOrderDto } = req;
   const paymentOrder = await new services.CreatePaymentOrder(currentTenantDatabase, {
@@ -62,4 +71,5 @@ module.exports = {
   findAllPaymentOrder,
   createPaymentOrderApprove,
   createPaymentOrderReject,
+  findPaymentOrderReference,
 };

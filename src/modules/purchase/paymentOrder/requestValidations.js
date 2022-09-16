@@ -1,5 +1,11 @@
 const { Joi } = require('celebrate');
 
+const paymentOrderReference = {
+  params: {
+    supplierId: Joi.number().required(),
+  },
+};
+
 const requireAuth = {
   headers: Joi.object({
     authorization: Joi.string().required(),
@@ -72,4 +78,5 @@ module.exports = {
   createPaymentOrder,
   getPaymentOrderListParams,
   createPaymentOrderReject,
+  paymentOrderReference,
 };

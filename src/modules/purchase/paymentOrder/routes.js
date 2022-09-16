@@ -6,6 +6,16 @@ const controller = require('./controller');
 
 const router = express.Router();
 
+// PAYMENT ORDER REFERENCE
+router
+  .route('/reference/:supplierId')
+  .get(
+    celebrate(requestValidations.requireAuth),
+    celebrate(requestValidations.paymentOrderReference),
+    auth(),
+    controller.findPaymentOrderReference
+  )
+
 // CREATE NEW PAYMENT ORDER
 router
   .route('/')
