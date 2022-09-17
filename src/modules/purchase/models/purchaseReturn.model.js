@@ -28,6 +28,12 @@ module.exports = (sequelize, DataTypes, projectCode) => {
       tax: {
         type: DataTypes.DECIMAL,
       },
+      amount: {
+        type: DataTypes.DECIMAL,
+      },
+      remaining: {
+        type: DataTypes.DECIMAL,
+      },
     },
     {
       hooks: {},

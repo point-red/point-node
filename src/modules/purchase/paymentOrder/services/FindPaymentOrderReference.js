@@ -23,19 +23,21 @@ class FindPaymentOrderReference {
         const purchaseInvoice = await this.tenantDatabase.PurchaseInvoice.findOne({
           where: { id: form.formableId, supplierId: this.supplierId },
         });
+        const invoiceAmountRemaining = await this.tenantDatabase.PurchaseInvoiceDone.sum('value', {
+          where: { purchaseInvoiceId: purchaseInvoice.id },
+        });
 
         const invoiceRes = {
           id: purchaseInvoice.id,
           date: form.date,
           form_number: form.number,
           notes: form.notes,
-          available_amount: purchaseInvoice.remaining,
+          available_amount: invoiceAmountRemaining,
         };
 
         purchase_invoices.push(invoiceRes);
       }
 
-      console.log(form.formableType);
       if (form.formableType === 'PurchaseDownPayment') {
         const purchaseDownPayment = await this.tenantDatabase.PurchaseDownPayment.findOne({
           where: { id: form.formableId, supplierId: this.supplierId },

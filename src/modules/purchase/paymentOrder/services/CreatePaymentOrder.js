@@ -115,6 +115,13 @@ class CreatePaymentOrder {
             },
             { transaction }
           );
+
+          const returnData = await this.tenantDatabase.PurchaseReturn.findOne({ where: { id: returnVal.id } });
+
+          await this.tenantDatabase.PurchaseReturn.update(
+            { remaining: returnData.remaining - returnVal.amount },
+            { where: { id: returnVal.id }, transaction }
+          );
         }
       }
 
@@ -211,6 +218,13 @@ async function validate(tenantDatabase, createPaymentOrderDto) {
     });
     if (!returnData) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Purchase return reference not found');
+    }
+
+    if (returnVal.amount > returnData.remaining) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        `available amount in purchase return ${returnVal.id} lower than inputted amount`
+      );
     }
 
     totalAccumulatedReturn += returnVal.amount;

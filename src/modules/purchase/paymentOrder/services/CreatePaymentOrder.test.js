@@ -112,6 +112,24 @@ describe('Purchase - CreatePaymentOrder', () => {
       }).rejects.toThrow(`available amount in down payment ${downPayments[0].id} lower than inputted amount`);
     });
 
+    it('throw error when return amount > available', async () => {
+      const returns = [
+        {
+          id: 1,
+          amount: 150000000,
+        },
+      ];
+      const maker = await factory.user.create();
+      const createPaymentOrderDto = generateCreatePaymentOrderRequestDto({ returns });
+
+      await expect(async () => {
+        await new CreatePaymentOrder(tenantDatabase, {
+          maker,
+          createPaymentOrderDto,
+        }).call();
+      }).rejects.toThrow(`available amount in purchase return ${returns[0].id} lower than inputted amount`);
+    });
+
     it('throw error when total invoice different from accumulated invoices amount', async () => {
       const invoices = [
         {
