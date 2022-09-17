@@ -23,51 +23,55 @@ class FindPaymentOrderReference {
         const purchaseInvoice = await this.tenantDatabase.PurchaseInvoice.findOne({
           where: { id: form.formableId, supplierId: this.supplierId },
         });
-        const invoiceAmountRemaining = await this.tenantDatabase.PurchaseInvoiceDone.sum('value', {
-          where: { purchaseInvoiceId: purchaseInvoice.id },
-        });
+        if (purchaseInvoice) {
+          const invoiceAmountRemaining = await this.tenantDatabase.PurchaseInvoiceDone.sum('value', {
+            where: { purchaseInvoiceId: purchaseInvoice.id },
+          });
 
-        const invoiceRes = {
-          id: purchaseInvoice.id,
-          date: form.date,
-          form_number: form.number,
-          notes: form.notes,
-          available_amount: invoiceAmountRemaining,
-        };
+          const invoiceRes = {
+            id: purchaseInvoice.id,
+            date: form.date,
+            form_number: form.number,
+            notes: form.notes,
+            available_amount: invoiceAmountRemaining,
+          };
 
-        purchase_invoices.push(invoiceRes);
+          purchase_invoices.push(invoiceRes);
+        }
       }
 
       if (form.formableType === 'PurchaseDownPayment') {
         const purchaseDownPayment = await this.tenantDatabase.PurchaseDownPayment.findOne({
           where: { id: form.formableId, supplierId: this.supplierId },
         });
+        if (purchaseDownPayment) {
+          const downPaymentRes = {
+            id: purchaseDownPayment.id,
+            date: form.date,
+            form_number: form.number,
+            notes: form.notes,
+            available_amount: parseInt(purchaseDownPayment.remaining),
+          };
 
-        const downPaymentRes = {
-          id: purchaseDownPayment.id,
-          date: form.date,
-          form_number: form.number,
-          notes: form.notes,
-          available_amount: purchaseDownPayment.remaining,
-        };
-
-        purchase_down_payments.push(downPaymentRes);
+          purchase_down_payments.push(downPaymentRes);
+        }
       }
 
       if (form.formableType === 'PurchaseReturn') {
         const purchaseReturn = await this.tenantDatabase.PurchaseReturn.findOne({
           where: { id: form.formableId, supplierId: this.supplierId },
         });
+        if (purchaseReturn) {
+          const returnRes = {
+            id: purchaseReturn.id,
+            date: form.date,
+            form_number: form.number,
+            notes: form.notes,
+            available_amount: parseInt(purchaseReturn.remaining),
+          };
 
-        const returnRes = {
-          id: purchaseReturn.id,
-          date: form.date,
-          form_number: form.number,
-          notes: form.notes,
-          available_amount: purchaseReturn.remaining,
-        };
-
-        purchase_returns.push(returnRes);
+          purchase_returns.push(returnRes);
+        }
       }
     }
     const paymentOrderRef = { purchase_invoices, purchase_down_payments, purchase_returns };
