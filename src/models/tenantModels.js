@@ -117,7 +117,7 @@ async function addOrFindNewProjectDatabase (db, projectCode) {
 
 function generateConfigNewDatabase (projectCode) {
   const configDbTenant = config.databases.tenant;
-  const database = `point_${projectCode}`;
+  const database = `${process.env.DATABASE_NAME}_${projectCode}`;
   
   return {
     ...configDbTenant,
