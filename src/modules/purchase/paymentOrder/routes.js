@@ -57,4 +57,13 @@ router
     controller.createPaymentOrderReject
   );
 
+// PREVIEW FORM NUMBER
+router
+  .route('/preview-form-number')
+  .get(
+    celebrate(requestValidations.requireAuth),
+    auth(),
+    controller.previewFormNumber
+  );
+
 module.exports = router;
