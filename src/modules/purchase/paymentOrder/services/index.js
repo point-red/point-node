@@ -3,6 +3,7 @@ const FindAllPaymentOrder = require('./FindAllPaymentOrder');
 const CreatePaymentOrderApprove = require('./CreatePaymentOrderApprove');
 const CreatePaymentOrderReject = require('./CreatePaymentOrderReject');
 const FindPaymentOrderReference = require('./FindPaymentOrderReference');
+const PreviewFormNumber = require('./PreviewFormNumber');
 
 module.exports = {
   CreatePaymentOrder,
@@ -10,4 +11,5 @@ module.exports = {
   CreatePaymentOrderApprove,
   CreatePaymentOrderReject,
   FindPaymentOrderReference,
+  PreviewFormNumber,
 };
