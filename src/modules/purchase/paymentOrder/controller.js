@@ -72,6 +72,15 @@ const previewFormNumber = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send({ message: 'Success', data: formNumber });
 });
 
+const findPaymentOrder = catchAsync(async (req, res) => {
+  const {
+    currentTenantDatabase,
+    params: { paymentOrderId },
+  } = req;
+  const paymentOrder = await new services.FindPaymentOrder(currentTenantDatabase, paymentOrderId).call();
+  res.status(httpStatus.OK).send({ message: 'Success', data: paymentOrder });
+});
+
 module.exports = {
   createPaymentOrder,
   findAllPaymentOrder,
@@ -79,4 +88,5 @@ module.exports = {
   createPaymentOrderReject,
   findPaymentOrderReference,
   previewFormNumber,
+  findPaymentOrder,
 };

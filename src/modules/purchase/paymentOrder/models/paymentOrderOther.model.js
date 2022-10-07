@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes, projectCode) => {
   class PaymentOrderOther extends Model {
     static associate({ [projectCode]: models }) {
       this.belongsTo(models.PaymentOrder, { as: 'paymentOrder', foreignKey: 'paymentOrderId' });
+
+      this.belongsTo(models.ChartOfAccount, { as: 'chartOfAccount', foreignKey: 'chartOfAccountId' });
+
+      this.belongsTo(models.Allocation, { as: 'allocation', foreignKey: 'allocationId' });
     }
   }
   PaymentOrderOther.init(
