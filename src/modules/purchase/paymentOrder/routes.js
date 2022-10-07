@@ -66,4 +66,14 @@ router
     controller.previewFormNumber
   );
 
+// GET DETAIL PAYMENT ORDER
+router
+  .route('/:paymentOrderId')
+  .get(
+    celebrate(requestValidations.requireAuth),
+    celebrate(requestValidations.requirePaymentOrderId),
+    auth('read purchase payment order'),
+    controller.findPaymentOrder
+  );
+
 module.exports = router;
