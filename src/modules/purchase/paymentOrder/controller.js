@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const { Readable } = require('stream');
 const catchAsync = require('@src/utils/catchAsync');
 const services = require('./services');
 
@@ -81,6 +82,24 @@ const findPaymentOrder = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send({ message: 'Success', data: paymentOrder });
 });
 
+const exportPaymentOrder = catchAsync(async (req, res) => {
+  const {
+    currentTenantDatabase,
+    headers,
+    params: { paymentOrderId },
+  } = req;
+  const tenant = headers.tenant;
+
+  const paymentOrderBuff = await new services.ExportPaymentOrder(currentTenantDatabase, paymentOrderId, tenant).call();
+  const readable = new Readable();
+  readable._read = () => {};
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', `attachment; filename=payment-order.pdf`);
+  readable.push(paymentOrderBuff);
+  readable.push(null);
+  return readable.pipe(res);
+});
+
 module.exports = {
   createPaymentOrder,
   findAllPaymentOrder,
@@ -89,4 +108,5 @@ module.exports = {
   findPaymentOrderReference,
   previewFormNumber,
   findPaymentOrder,
+  exportPaymentOrder,
 };
