@@ -51,10 +51,10 @@ class FindPaymentOrder {
       const invoice = {
         id: value.id,
         date: form.date,
-        formNumber: form.number,
+        form_number: form.number,
         notes: form.notes,
-        availableAmount: parseInt(invoiceAmountRemaining) + parseInt(value.amount),
-        amountOrder: parseInt(value.amount),
+        available_amount: parseInt(invoiceAmountRemaining) + parseInt(value.amount),
+        amount_order: parseInt(value.amount),
       };
 
       invoices.push(invoice);
@@ -75,10 +75,10 @@ class FindPaymentOrder {
       const downPayment = {
         id: value.id,
         date: form.date,
-        formNumber: form.number,
+        form_number: form.number,
         notes: form.notes,
-        availableAmount: parseInt(value.purchaseDownPayment.remaining) + parseInt(value.amount),
-        amountOrder: parseInt(value.amount),
+        available_amount: parseInt(value.purchaseDownPayment.remaining) + parseInt(value.amount),
+        amount_order: parseInt(value.amount),
       };
 
       downPayments.push(downPayment);
@@ -99,10 +99,10 @@ class FindPaymentOrder {
       const returnValue = {
         id: value.id,
         date: form.date,
-        formNumber: form.number,
+        form_number: form.number,
         notes: form.notes,
-        availableAmount: parseInt(value.purchaseReturn.remaining) + parseInt(value.amount),
-        amountOrder: parseInt(value.amount),
+        available_amount: parseInt(value.purchaseReturn.remaining) + parseInt(value.amount),
+        amount_order: parseInt(value.amount),
       };
 
       returns.push(returnValue);
@@ -132,25 +132,25 @@ class FindPaymentOrder {
 
     const paymentOrderDetail = {
       id: paymentOrder.id,
-      supplierName: paymentOrder.supplier.name,
-      supplierAddress: paymentOrder.supplier.address,
-      supplierPhone: paymentOrder.supplier.phone,
+      supplier_name: paymentOrder.supplier.name,
+      supplier_address: paymentOrder.supplier.address,
+      supplier_phone: paymentOrder.supplier.phone,
       date: paymentOrder.form.date,
-      formNumber: paymentOrder.form.number,
-      paymentMethod: paymentOrder.paymentType,
-      invoiceCollection: invoices,
-      downPaymentCollection: downPayments,
-      returnCollection: returns,
-      otherCollection: others,
-      totalInvoice: parseInt(paymentOrder.totalInvoice),
-      totalDownPayment: parseInt(paymentOrder.totalDownPayment),
-      totalReturn: parseInt(paymentOrder.totalReturn),
-      totalOther: parseInt(paymentOrder.totalOther),
-      totalAmount: parseInt(paymentOrder.amount),
+      form_number: paymentOrder.form.number,
+      payment_method: paymentOrder.paymentType,
+      invoice_collection: invoices,
+      down_payment_collection: downPayments,
+      return_collection: returns,
+      other_collection: others,
+      total_invoice: parseInt(paymentOrder.totalInvoice),
+      total_down_payment: parseInt(paymentOrder.totalDownPayment),
+      total_return: parseInt(paymentOrder.totalReturn),
+      total_other: parseInt(paymentOrder.totalOther),
+      total_amount: parseInt(paymentOrder.amount),
       notes: paymentOrder.form.notes,
-      createdAt: paymentOrder.form.createdAt,
-      createdBy: paymentOrder.form.createdByUser.name,
-      approvedBy: paymentOrder.form.requestApprovalToUser.name,
+      created_at: paymentOrder.form.createdAt,
+      created_by: paymentOrder.form.createdByUser.name,
+      approved_by: paymentOrder.form.requestApprovalToUser.name,
     };
 
     return paymentOrderDetail;

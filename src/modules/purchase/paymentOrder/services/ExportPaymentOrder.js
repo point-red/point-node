@@ -25,48 +25,48 @@ class ExportPaymentOrder {
     const project = await Project.findOne({ where: { code: this.tenant } });
     const settingLogo = await this.tenantDatabase.SettingLogo.findOne();
 
-    paymentOrder.invoiceCollection.forEach((invoice) => {
+    paymentOrder.invoice_collection.forEach((invoice) => {
       invoicesHtml += `
         <tr>
           <td class="text-center">${moment(invoice.date).format('DD MMMM YYYY')}</td>
-          <td class="text-center">${invoice.formNumber}</td>
+          <td class="text-center">${invoice.form_number}</td>
           <td class="text-center">${invoice.notes || ''}</td>
-          <td class="text-right">${currencyFormat(invoice.availableAmount)}</td>
-          <td class="text-right">${currencyFormat(invoice.amountOrder)}</td>
+          <td class="text-right">Rp ${currencyFormat(invoice.available_amount)}</td>
+          <td class="text-right">Rp ${currencyFormat(invoice.amount_order)}</td>
         </tr>
       `;
     });
 
-    paymentOrder.downPaymentCollection.forEach((downPayment) => {
+    paymentOrder.down_payment_collection.forEach((downPayment) => {
       downpaymentsHtml += `
         <tr>
           <td class="text-center">${moment(downPayment.date).format('DD MMMM YYYY')}</td>
-          <td class="text-center">${downPayment.formNumber}</td>
+          <td class="text-center">${downPayment.form_number}</td>
           <td class="text-center">${downPayment.notes || ''}</td>
-          <td class="text-right">${currencyFormat(downPayment.availableAmount)}</td>
-          <td class="text-right">${currencyFormat(downPayment.amountOrder)}</td>
+          <td class="text-right">Rp ${currencyFormat(downPayment.available_amount)}</td>
+          <td class="text-right">Rp ${currencyFormat(downPayment.amount_order)}</td>
         </tr>
       `;
     });
 
-    paymentOrder.returnCollection.forEach((returnValue) => {
+    paymentOrder.return_collection.forEach((returnValue) => {
       returnsHtml += `
         <tr>
           <td class="text-center">${moment(returnValue.date).format('DD MMMM YYYY')}</td>
-          <td class="text-center">${returnValue.formNumber}</td>
+          <td class="text-center">${returnValue.form_number}</td>
           <td class="text-center">${returnValue.notes || ''}</td>
-          <td class="text-right">${currencyFormat(returnValue.availableAmount)}</td>
-          <td class="text-right">${currencyFormat(returnValue.amountOrder)}</td>
+          <td class="text-right">Rp ${currencyFormat(returnValue.available_amount)}</td>
+          <td class="text-right">Rp ${currencyFormat(returnValue.amount_order)}</td>
         </tr>
       `;
     });
 
-    paymentOrder.otherCollection.forEach((other) => {
+    paymentOrder.other_collection.forEach((other) => {
       othersHtml += `
         <tr>
           <td class="text-center">${other.account}</td>
           <td class="text-center">${other.notes || ''}</td>
-          <td class="text-right">${currencyFormat(other.amount)}</td>
+          <td class="text-right">Rp ${currencyFormat(other.amount)}</td>
           <td class="text-center">${other.allocation}</td>
         </tr>
       `;
@@ -77,19 +77,19 @@ class ExportPaymentOrder {
     pdfBody = pdfBody.replace('{{companyAddress}}', project.address || '');
     pdfBody = pdfBody.replace('{{companyPhone}}', project.phone || '');
     pdfBody = pdfBody.replace('{{date}}', moment(paymentOrder.date).format('DD MMMM YYYY'));
-    pdfBody = pdfBody.replace('{{formNumber}}', paymentOrder.formNumber);
-    pdfBody = pdfBody.replace('{{supplierName}}', paymentOrder.supplierName);
-    pdfBody = pdfBody.replace('{{supplierAddress}}', paymentOrder.supplierAddress || '');
-    pdfBody = pdfBody.replace('{{supplierPhone}}', paymentOrder.supplierPhone || '');
+    pdfBody = pdfBody.replace('{{formNumber}}', paymentOrder.form_number);
+    pdfBody = pdfBody.replace('{{supplierName}}', paymentOrder.supplier_name);
+    pdfBody = pdfBody.replace('{{supplierAddress}}', paymentOrder.supplier_address || '');
+    pdfBody = pdfBody.replace('{{supplierPhone}}', paymentOrder.supplier_phone || '');
     pdfBody = pdfBody.replace('{{invoices}}', invoicesHtml);
     pdfBody = pdfBody.replace('{{downPayments}}', downpaymentsHtml);
     pdfBody = pdfBody.replace('{{returns}}', returnsHtml);
     pdfBody = pdfBody.replace('{{others}}', othersHtml);
-    pdfBody = pdfBody.replace('{{totalInvoice}}', currencyFormat(paymentOrder.totalInvoice));
-    pdfBody = pdfBody.replace('{{totalDownPayment}}', currencyFormat(paymentOrder.totalDownPayment));
-    pdfBody = pdfBody.replace('{{totalReturn}}', currencyFormat(paymentOrder.totalReturn));
-    pdfBody = pdfBody.replace('{{totalOther}}', currencyFormat(paymentOrder.totalOther));
-    pdfBody = pdfBody.replace('{{totalAmount}}', currencyFormat(paymentOrder.totalAmount));
+    pdfBody = pdfBody.replace('{{totalInvoice}}', `Rp ${currencyFormat(paymentOrder.total_invoice)}`);
+    pdfBody = pdfBody.replace('{{totalDownPayment}}', `Rp ${currencyFormat(paymentOrder.total_down_payment)}`);
+    pdfBody = pdfBody.replace('{{totalReturn}}', `Rp ${currencyFormat(paymentOrder.total_return)}`);
+    pdfBody = pdfBody.replace('{{totalOther}}', `Rp ${currencyFormat(paymentOrder.total_other)}`);
+    pdfBody = pdfBody.replace('{{totalAmount}}', `Rp ${currencyFormat(paymentOrder.total_amount)}`);
     pdfBody = pdfBody.replace('{{notes}}', paymentOrder.notes);
 
     const options = { format: 'A4' };
