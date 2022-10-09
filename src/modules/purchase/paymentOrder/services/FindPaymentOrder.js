@@ -132,7 +132,9 @@ class FindPaymentOrder {
 
     const paymentOrderDetail = {
       id: paymentOrder.id,
-      supplier: paymentOrder.supplier.name,
+      supplierName: paymentOrder.supplier.name,
+      supplierAddress: paymentOrder.supplier.address,
+      supplierPhone: paymentOrder.supplier.phone,
       date: paymentOrder.form.date,
       formNumber: paymentOrder.form.number,
       paymentMethod: paymentOrder.paymentType,
