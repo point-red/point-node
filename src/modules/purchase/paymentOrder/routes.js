@@ -86,4 +86,14 @@ router
     controller.printPaymentOrder
   );
 
+// EXPORT PAYMENT ORDER
+router
+  .route('/export')
+  .post(
+    celebrate(requestValidations.requireAuth),
+    celebrate(requestValidations.getPaymentOrderListParams),
+    auth('read purchase payment order'),
+    controller.exportPaymentOrder
+  );
+
 module.exports = router;

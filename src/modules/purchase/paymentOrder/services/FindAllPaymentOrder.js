@@ -53,6 +53,7 @@ class FindAllPaymentOrder {
         value: paymentOrder.amount,
         approval_status: approvalStatus,
         done_status: doneStatus,
+        payment_method: paymentOrder.paymentType,
       };
 
       data.push(result);

@@ -100,6 +100,13 @@ const printPaymentOrder = catchAsync(async (req, res) => {
   return readable.pipe(res);
 });
 
+const exportPaymentOrder = catchAsync(async (req, res) => {
+  const { currentTenantDatabase, headers, query: queries } = req;
+  const tenant = headers.tenant;
+
+  await new services.ExportPaymentOrder(currentTenantDatabase, tenant, queries, res).call();
+});
+
 module.exports = {
   createPaymentOrder,
   findAllPaymentOrder,
@@ -109,4 +116,5 @@ module.exports = {
   previewFormNumber,
   findPaymentOrder,
   printPaymentOrder,
+  exportPaymentOrder,
 };
