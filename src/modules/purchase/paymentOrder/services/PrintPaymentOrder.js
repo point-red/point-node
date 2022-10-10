@@ -6,7 +6,7 @@ const findPaymentOrder = require('./FindPaymentOrder');
 const currencyFormat = require('@src/utils/currencyFormat');
 const { Project } = require('@src/models').main;
 
-class ExportPaymentOrder {
+class PrintPaymentOrder {
   constructor(tenantDatabase, paymentOrderId, tenant) {
     this.tenantDatabase = tenantDatabase;
     this.paymentOrderId = paymentOrderId;
@@ -14,7 +14,7 @@ class ExportPaymentOrder {
   }
 
   async call() {
-    let pdfBody = await fs.readFile(path.resolve(__dirname, '../templates/exportPaymentOrder.html'), 'utf8');
+    let pdfBody = await fs.readFile(path.resolve(__dirname, '../templates/printPaymentOrder.html'), 'utf8');
     let invoicesHtml = '';
     let downpaymentsHtml = '';
     let returnsHtml = '';
@@ -99,4 +99,4 @@ class ExportPaymentOrder {
   }
 }
 
-module.exports = ExportPaymentOrder;
+module.exports = PrintPaymentOrder;

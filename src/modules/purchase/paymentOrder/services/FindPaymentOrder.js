@@ -151,6 +151,11 @@ class FindPaymentOrder {
       created_at: paymentOrder.form.createdAt,
       created_by: paymentOrder.form.createdByUser.name,
       approved_by: paymentOrder.form.requestApprovalToUser.name,
+      approval_reason: paymentOrder.form.approvalReason,
+      approval_status: paymentOrder.form.approvalStatus,
+      cancellation_status: paymentOrder.form.CancellationStatus,
+      cancellation_approval_reason: paymentOrder.form.cancellationApprovalReason,
+      request_cancellation_reason: paymentOrder.form.requestCancellationReason,
     };
 
     return paymentOrderDetail;
