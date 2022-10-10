@@ -153,7 +153,7 @@ class FindPaymentOrder {
       approved_by: paymentOrder.form.requestApprovalToUser.name,
       approval_reason: paymentOrder.form.approvalReason,
       approval_status: paymentOrder.form.approvalStatus,
-      cancellation_status: paymentOrder.form.CancellationStatus,
+      cancellation_status: paymentOrder.form.cancellationStatus,
       cancellation_approval_reason: paymentOrder.form.cancellationApprovalReason,
       request_cancellation_reason: paymentOrder.form.requestCancellationReason,
     };
