@@ -82,7 +82,7 @@ const findPaymentOrder = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send({ message: 'Success', data: paymentOrder });
 });
 
-const exportPaymentOrder = catchAsync(async (req, res) => {
+const printPaymentOrder = catchAsync(async (req, res) => {
   const {
     currentTenantDatabase,
     headers,
@@ -90,7 +90,7 @@ const exportPaymentOrder = catchAsync(async (req, res) => {
   } = req;
   const tenant = headers.tenant;
 
-  const paymentOrderBuff = await new services.ExportPaymentOrder(currentTenantDatabase, paymentOrderId, tenant).call();
+  const paymentOrderBuff = await new services.PrintPaymentOrder(currentTenantDatabase, paymentOrderId, tenant).call();
   const readable = new Readable();
   readable._read = () => {};
   res.setHeader('Content-Type', 'application/pdf');
@@ -108,5 +108,5 @@ module.exports = {
   findPaymentOrderReference,
   previewFormNumber,
   findPaymentOrder,
-  exportPaymentOrder,
+  printPaymentOrder,
 };
