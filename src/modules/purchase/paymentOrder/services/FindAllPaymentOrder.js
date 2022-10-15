@@ -44,6 +44,11 @@ class FindAllPaymentOrder {
         doneStatus = 'Pending';
       }
 
+      const paymentOrderDetails = await this.tenantDatabase.PaymentOrderDetail.findAll({
+        where: { paymentOrderId: paymentOrder.id },
+        include: { model: this.tenantDatabase.ChartOfAccount, as: 'chartOfAccount' },
+      });
+
       const result = {
         payment_order_id: paymentOrder.id,
         date: paymentOrder.form.date,
@@ -54,6 +59,7 @@ class FindAllPaymentOrder {
         approval_status: approvalStatus,
         done_status: doneStatus,
         payment_method: paymentOrder.paymentType,
+        details: paymentOrderDetails,
       };
 
       data.push(result);
