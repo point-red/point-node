@@ -66,6 +66,7 @@ const modelPaths = [
   '/purchase/paymentOrder/models/paymentOrderOther.model.js',
   '/purchase/paymentOrder/models/paymentOrderReturn.model.js',
   '/purchase/paymentOrder/models/purchaseInvoiceDone.model.js',
+  '/purchase/paymentOrder/models/paymentOrderDetail.model.js',
   // plugin/pinpoint
   '/plugin/pinPoint/salesVisitation.model.js',
   '/plugin/pinPoint/salesVisitationDetail.model.js',
