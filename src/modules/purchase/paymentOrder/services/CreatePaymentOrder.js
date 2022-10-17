@@ -69,7 +69,6 @@ class CreatePaymentOrder {
         { where: { id: paymentOrder.id }, transaction }
       );
 
-      const invoiceCoa = await this.tenantDatabase.ChartOfAccount.findOne({ where: { name: 'PURCHASE INVOICE' } });
       for (const invoice of invoices) {
         await this.tenantDatabase.PaymentOrderInvoice.create(
           {
@@ -84,14 +83,8 @@ class CreatePaymentOrder {
           { purchaseInvoiceId: invoice.id, refNo: paymentOrderForm.number, value: -Math.abs(invoice.amount) },
           { transaction }
         );
-
-        await this.tenantDatabase.PaymentOrderDetail.create(
-          { paymentOrderId: paymentOrder.id, chartOfAccountId: invoiceCoa.id, amount: invoice.amount },
-          { transaction }
-        );
       }
 
-      const downPaymentCoa = await this.tenantDatabase.ChartOfAccount.findOne({ where: { name: 'PURCHASE DOWN PAYMENT' } });
       if (downPayments.length > 0) {
         for (const downPayment of downPayments) {
           await this.tenantDatabase.PaymentOrderDownPayment.create(
@@ -109,15 +102,9 @@ class CreatePaymentOrder {
             { remaining: downPaymentData.remaining - downPayment.amount },
             { where: { id: downPayment.id }, transaction }
           );
-
-          await this.tenantDatabase.PaymentOrderDetail.create(
-            { paymentOrderId: paymentOrder.id, chartOfAccountId: downPaymentCoa.id, amount: downPayment.amount },
-            { transaction }
-          );
         }
       }
 
-      const returnCoa = await this.tenantDatabase.ChartOfAccount.findOne({ where: { name: 'PURCHASE RETURN' } });
       if (returns.length > 0) {
         for (const returnVal of returns) {
           await this.tenantDatabase.PaymentOrderReturn.create(
@@ -135,11 +122,6 @@ class CreatePaymentOrder {
             { remaining: returnData.remaining - returnVal.amount },
             { where: { id: returnVal.id }, transaction }
           );
-
-          await this.tenantDatabase.PaymentOrderDetail.create(
-            { paymentOrderId: paymentOrder.id, chartOfAccountId: returnCoa.id, amount: returnVal.amount },
-            { transaction }
-          );
         }
       }
 
@@ -153,11 +135,6 @@ class CreatePaymentOrder {
               amount: other.amount,
               notes: other.notes,
             },
-            { transaction }
-          );
-
-          await this.tenantDatabase.PaymentOrderDetail.create(
-            { paymentOrderId: paymentOrder.id, chartOfAccountId: other.coaId, amount: other.amount },
             { transaction }
           );
         }

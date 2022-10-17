@@ -44,22 +44,15 @@ class FindAllPaymentOrder {
         doneStatus = 'Pending';
       }
 
-      const paymentOrderDetails = await this.tenantDatabase.PaymentOrderDetail.findAll({
-        where: { paymentOrderId: paymentOrder.id },
-        include: { model: this.tenantDatabase.ChartOfAccount, as: 'chartOfAccount' },
-      });
-
       const result = {
         payment_order_id: paymentOrder.id,
-        date: paymentOrder.form.date,
-        form_number: paymentOrder.form.number,
-        supplier: paymentOrder.supplier.name,
-        notes: paymentOrder.form.notes,
+        form: paymentOrder.form,
+        supplier_id: paymentOrder.supplierId,
+        supplier_name: paymentOrder.supplier.name,
         value: paymentOrder.amount,
         approval_status: approvalStatus,
         done_status: doneStatus,
         payment_method: paymentOrder.paymentType,
-        details: paymentOrderDetails,
       };
 
       data.push(result);
