@@ -113,4 +113,13 @@ router
     controller.updateForm
   );
 
+// ADD WATERMARK ON REJECTED STOCK-CORRECTION PDF
+router
+  .route('/pdf/:stockCorrectionId')
+  .get(
+    celebrate(requestValidations.requireAuth),
+    celebrate(requestValidations.requireStockCorrectionId),
+    controller.generatePdf
+  );
+
 module.exports = router;

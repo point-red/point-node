@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock Correction</title>
+  </head>
+  <body>
+    <div style="position: fixed; top: 48%; left: 7%; transform: rotate(-45deg); opacity: 0.5; z-index: 99; font-size: 700%; color: red">Cancelled</div>
+    <div style="display: flex; flex-direction: row; margin-top: 4mm">
+      <img
+        src="https://cdn.pixabay.com/photo/2014/09/19/12/43/star-452341_1280.png"
+        style="height: 2cm; width: 2cm; margin-left: 3mm"
+      />
+      <div style="margin-left: 75mm; margin-top: -2cm">
+        <h2 style="margin: 0 0 3mm 0; color: #2296f3">Stock Correction</h2>
+        <h3 style="margin: 0 0 2mm 0; color: #2296f3">PT.GANESHA MANDIRI BHAKTI</h3>
+        <p style="margin: 0 0 2mm 0">Jln. Musi No 21 Tegalsari Surabaya</p>
+        <p style="margin: 0 0 2mm 0">Phone : (021)-29339383</p>
+      </div>
+    </div>
+    <div style="background-color: #2296f3; height: 5mm; margin: 4mm 2mm 2mm 2mm"></div>
+    <div style="display: flex; flex-direction: row; margin-top: 4mm">
+      <div style="margin-left: 3mm">
+        <p style="margin: 0 0 2mm 0">Date : {{date}}</p>
+        <p style="margin: 0 0 2mm 0">Form Number : {{formNumber}}</p>
+      </div>
+      <div style="margin-left: 75mm; margin-top: -1.25cm">
+        <p style="margin: 0 0 2mm 0">Warehouse : {{warehouse}}</p>
+        <p style="margin: 0 0 2mm 0">Addrress : {{address}}</p>
+        <p style="margin: 0 0 2mm 0">Phone Number : {{phone}}</p>
+      </div>
+    </div>
+    <div style="margin-top: 7mm">
+      <table style="margin: auto; border: 1px solid #ddd; width: 80%">
+        <tr style="background-color: #2296f3">
+          <th style="padding-top: 10px; padding-bottom: 10px">Item</th>
+          <th style="padding-top: 10px; padding-bottom: 10px">Stock Database</th>
+          <th style="padding-top: 10px; padding-bottom: 10px">Stock Correction</th>
+          <th style="padding-top: 10px; padding-bottom: 10px">Balance</th>
+        </tr>
+        <tr>
+          {{#each items}}
+          <td style="text-align: center">{{this.item}}</td>
+          <td style="text-align: center">{{this.stockDatabase}}</td>
+          <td style="text-align: center">{{this.stockCorrectionQty}}</td>
+          <td style="text-align: center">{{this.balance}}</td>
+          {{/each}}
+        </tr>
+      </table>
+    </div>
+    <div style="margin: 5cm 0 0 2cm">
+      <div style="text-align: center">
+        <h3>CreatedBy</h3>
+        <p style="margin-top: 2cm">{{createdBy}}</p>
+      </div>
+      <div style="margin: -34mm 0 0 80mm; text-align: center">
+        <h3>ApprovedBy</h3>
+        <p style="margin-top: 2cm">{{approveBy}}</p>
+      </div>
+    </div>
+  </body>
+</html>
