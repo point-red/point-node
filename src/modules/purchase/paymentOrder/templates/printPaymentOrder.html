@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      .print-payment-order-container {
+        width: 90%;
+        padding: 30px;
+      }
+      .d-flex {
+        display: flex;
+      }
+      .d-flex-row {
+        display: flex;
+        flex-direction: column;
+      }
+      .text-right {
+        text-align: right;
+      }
+      .text-center {
+        text-align: center;
+      }
+      .table-items {
+        border: solid 1px black;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      table.table-items,
+      .table-items th,
+      .table-items td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      .table-items th,
+      .table-items td {
+        padding: 5px;
+      }
+      .justify-content-between {
+        justify-content: space-between;
+      }
+      .my-5px {
+        margin: 5px 0 5px 0;
+      }
+      .company-detail {
+        min-width: 200px;
+        max-width: 250px;
+      }
+      .header-divider {
+        height: 10px;
+        border: none;
+        color: gray;
+        background-color: gray;
+      }
+      @media print {
+        table.header-detail tr td {
+          line-height: 0.5px;
+        }
+        #print-payment-order thead tr td {
+          padding-top: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <table id="print-payment-order" class="print-payment-order-container m-2 mb-4 mx-auto">
+      <thead>
+        <tr>
+          <td>
+            <div class="d-flex justify-content-between" style="margin-bottom: 10px">
+              <div style="width: 110px; height: 110px; align-self: center">
+                <img src="{{logoUrl}}" alt="Logo" style="width: 100px; height: 100px" />
+              </div>
+              <div class="company-detail">
+                <h1 style="margin-top: 0px">Payment Order</h1>
+                <h3 class="my-5px">{{companyName}}</h3>
+                <p class="my-5px">{{companyAddress}}</p>
+                <p class="my-5px">{{companyPhone}}</p>
+              </div>
+            </div>
+            <hr class="header-divider" />
+            <div class="d-flex justify-content-between" style="margin-top: 10px; margin-bottom: 10px">
+              <table class="header-detail" style="margin-right: 20px">
+                <tr>
+                  <td>Form number</td>
+                  <td>:</td>
+                  <td>{{formNumber}}</td>
+                </tr>
+                <tr>
+                  <td>Date</td>
+                  <td>:</td>
+                  <td>{{date}}</td>
+                </tr>
+              </table>
+              <table class="header-detail" style="margin-left: 20px">
+                <tr>
+                  <td>Supplier</td>
+                  <td>:</td>
+                  <td>{{supplierName}}</td>
+                </tr>
+                <tr>
+                  <td>Address</td>
+                  <td>:</td>
+                  <td>{{supplierAddress}}</td>
+                </tr>
+                <tr>
+                  <td>Phone number</td>
+                  <td>:</td>
+                  <td>{{supplierPhone}}</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <h3 class="my-5px">Invoice Collection</h3>
+            <table class="table-items" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Form Number</th>
+                  <th>Notes</th>
+                  <th>Available Invoice</th>
+                  <th>Amount Order</th>
+                </tr>
+              </thead>
+              {{invoices}}
+            </table>
+            <h3 class="my-5px">Down Payment Collection</h3>
+            <table class="table-items" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Form Number</th>
+                  <th>Notes</th>
+                  <th>Available Down Payment</th>
+                  <th>Amount Order</th>
+                </tr>
+              </thead>
+              {{downPayments}}
+            </table>
+            <h3 class="my-5px">Return Collection</h3>
+            <table class="table-items" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Form Number</th>
+                  <th>Notes</th>
+                  <th>Available Return</th>
+                  <th>Amount Order</th>
+                </tr>
+              </thead>
+              {{returns}}
+            </table>
+            <h3 class="my-5px">Other Collection</h3>
+            <table class="table-items" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Account</th>
+                  <th>Notes</th>
+                  <th>Amount</th>
+                  <th>Allocation</th>
+                </tr>
+              </thead>
+              {{others}}
+            </table>
+            <br>
+            <table class="table-items" style="width: 100%">
+              <tr>
+                <td colspan="5" class="text-right">Total Invoice</td>
+                <td class="text-right">{{totalInvoice}}</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="text-right">Total Down Payment</td>
+                <td class="text-right">{{totalDownPayment}}</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="text-right">Total Return</td>
+                <td class="text-right">{{totalReturn}}</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="text-right">Total Other</td>
+                <td class="text-right">{{totalOther}}</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="text-right">Total Amount</td>
+                <td class="text-right">{{totalAmount}}</td>
+              </tr>
+            </table>
+            <span>Notes: {{notes}}</span>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot></tfoot>
+    </table>
+  </body>
+</html>
