@@ -7,6 +7,7 @@ const PreviewFormNumber = require('./PreviewFormNumber');
 const FindPaymentOrder = require('./FindPaymentOrder');
 const PrintPaymentOrder = require('./PrintPaymentOrder');
 const ExportPaymentOrder = require('./ExportPaymentOrder');
+const UpdatePaymentOrder = require('./UpdatePaymentOrder');
 
 module.exports = {
   CreatePaymentOrder,
@@ -18,4 +19,5 @@ module.exports = {
   FindPaymentOrder,
   PrintPaymentOrder,
   ExportPaymentOrder,
+  UpdatePaymentOrder,
 };

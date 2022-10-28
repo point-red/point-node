@@ -132,6 +132,7 @@ class FindPaymentOrder {
 
     const paymentOrderDetail = {
       id: paymentOrder.id,
+      supplier_id: paymentOrder.supplierId,
       supplier_name: paymentOrder.supplier.name,
       supplier_address: paymentOrder.supplier.address,
       supplier_phone: paymentOrder.supplier.phone,
@@ -150,7 +151,7 @@ class FindPaymentOrder {
       notes: paymentOrder.form.notes,
       created_at: paymentOrder.form.createdAt,
       created_by: paymentOrder.form.createdByUser.name,
-      approved_by: paymentOrder.form.requestApprovalToUser.name,
+      request_approval_to: paymentOrder.form.requestApprovalToUser,
       approval_reason: paymentOrder.form.approvalReason,
       approval_status: paymentOrder.form.approvalStatus,
       cancellation_status: paymentOrder.form.cancellationStatus,

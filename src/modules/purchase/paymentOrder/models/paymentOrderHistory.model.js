@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes, projectCode) => {
       activity: {
         type: DataTypes.STRING,
       },
+      archive: {
+        type: DataTypes.JSON,
+      },
     },
     {
       hooks: {},

@@ -107,6 +107,22 @@ const exportPaymentOrder = catchAsync(async (req, res) => {
   await new services.ExportPaymentOrder(currentTenantDatabase, tenant, queries, res).call();
 });
 
+const updatePaymentOrder = catchAsync(async (req, res) => {
+  const {
+    currentTenantDatabase,
+    user: maker,
+    params: { paymentOrderId },
+    body: updatePaymentOrderDto,
+  } = req;
+  const paymentOrder = await new services.UpdatePaymentOrder(currentTenantDatabase, {
+    maker,
+    paymentOrderId,
+    updatePaymentOrderDto,
+  }).call();
+
+  res.status(httpStatus.OK).send({ message: 'Success', data: paymentOrder });
+});
+
 module.exports = {
   createPaymentOrder,
   findAllPaymentOrder,
@@ -117,4 +133,5 @@ module.exports = {
   findPaymentOrder,
   printPaymentOrder,
   exportPaymentOrder,
+  updatePaymentOrder,
 };
