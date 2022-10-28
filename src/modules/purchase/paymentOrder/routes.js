@@ -96,4 +96,15 @@ router
     controller.exportPaymentOrder
   );
 
+// UPDATE PAYMENT ORDER
+router
+  .route('/:paymentOrderId')
+  .put(
+    celebrate(requestValidations.requireAuth),
+    celebrate(requestValidations.requirePaymentOrderId),
+    celebrate(requestValidations.updatePaymentOrder),
+    auth('update purchase payment order'),
+    controller.updatePaymentOrder
+  );
+
 module.exports = router;
