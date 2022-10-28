@@ -80,7 +80,7 @@ class UpdatePaymentOrder {
       for (const invoice of invoices) {
         await this.tenantDatabase.PaymentOrderInvoice.create(
           {
-            paymentOrderId: paymentOrder.id,
+            paymentOrderId: this.paymentOrderId,
             purchaseInvoiceId: invoice.id,
             amount: invoice.amount,
           },
@@ -93,99 +93,85 @@ class UpdatePaymentOrder {
         );
       }
 
+      const existingPaymentOrderDownPayment = await this.tenantDatabase.PaymentOrderDownPayment.findAll({
+        where: { paymentOrderId: this.paymentOrderId },
+      });
+      for (const value of existingPaymentOrderDownPayment) {
+        const downPaymentData = await this.tenantDatabase.PurchaseDownPayment.findOne({
+          where: { id: value.purchaseDownPaymentId },
+        });
+
+        await this.tenantDatabase.PurchaseDownPayment.update(
+          { remaining: downPaymentData.remaining + parseInt(value.amount) },
+          { where: { id: value.purchaseDownPaymentId }, transaction }
+        );
+      }
+
+      await this.tenantDatabase.PaymentOrderDownPayment.destroy(
+        { where: { paymentOrderId: this.paymentOrderId } },
+        { transaction }
+      );
       if (downPayments.length > 0) {
         for (const downPayment of downPayments) {
-          const existPaymentOrderDownPayment = await this.tenantDatabase.PaymentOrderDownPayment.findOne({
-            where: { purchaseDownPaymentId: downPayment.id },
-          });
-          if (existPaymentOrderDownPayment) {
-            await this.tenantDatabase.PaymentOrderDownPayment.update(
-              { amount: downPayment.amount },
-              { where: { paymentOrderId: paymentOrder.id, purchaseDownPaymentId: downPayment.id }, transaction }
-            );
+          await this.tenantDatabase.PaymentOrderDownPayment.create(
+            {
+              paymentOrderId: this.paymentOrderId,
+              purchaseDownPaymentId: downPayment.id,
+              amount: downPayment.amount,
+            },
+            { transaction }
+          );
 
-            const downPaymentData = await this.tenantDatabase.PurchaseDownPayment.findOne({ where: { id: downPayment.id } });
+          const downPaymentData = await this.tenantDatabase.PurchaseDownPayment.findOne({ where: { id: downPayment.id } });
 
-            // rollback remaining value as before created
-            await this.tenantDatabase.PurchaseDownPayment.update(
-              { remaining: downPaymentData.remaining + parseInt(existPaymentOrderDownPayment.amount) },
-              { where: { id: downPayment.id }, transaction }
-            );
-
-            // update remaining value as inputted
-            await this.tenantDatabase.PurchaseDownPayment.update(
-              { remaining: downPaymentData.remaining - downPayment.amount },
-              { where: { id: downPayment.id }, transaction }
-            );
-          } else {
-            await this.tenantDatabase.PaymentOrderDownPayment.create(
-              {
-                paymentOrderId: paymentOrder.id,
-                purchaseDownPaymentId: downPayment.id,
-                amount: downPayment.amount,
-              },
-              { transaction }
-            );
-
-            const downPaymentData = await this.tenantDatabase.PurchaseDownPayment.findOne({ where: { id: downPayment.id } });
-
-            await this.tenantDatabase.PurchaseDownPayment.update(
-              { remaining: downPaymentData.remaining - downPayment.amount },
-              { where: { id: downPayment.id }, transaction }
-            );
-          }
+          await this.tenantDatabase.PurchaseDownPayment.update(
+            { remaining: downPaymentData.remaining - downPayment.amount },
+            { where: { id: downPayment.id }, transaction }
+          );
         }
       }
 
+      const existingPaymentOrderReturn = await this.tenantDatabase.PaymentOrderReturn.findAll({
+        where: { paymentOrderId: this.paymentOrderId },
+      });
+      for (const value of existingPaymentOrderReturn) {
+        const returnData = await this.tenantDatabase.PurchaseReturn.findOne({ where: { id: value.purchaseReturnId } });
+
+        await this.tenantDatabase.PurchaseReturn.update(
+          { remaining: returnData.remaining + parseInt(value.amount) },
+          { where: { id: value.purchaseReturnId }, transaction }
+        );
+      }
+
+      await this.tenantDatabase.PaymentOrderReturn.destroy(
+        { where: { paymentOrderId: this.paymentOrderId } },
+        { transaction }
+      );
       if (returns.length > 0) {
         for (const returnVal of returns) {
-          const existPaymentOrderReturn = await this.tenantDatabase.PaymentOrderReturn.findOne({
-            where: { purchaseReturnId: returnVal.id },
-          });
-          if (existPaymentOrderReturn) {
-            await this.tenantDatabase.PaymentOrderReturn.update(
-              { amount: returnVal.amount },
-              { where: { paymentOrderId: paymentOrder.id, purchaseReturnId: returnVal.id }, transaction }
-            );
+          await this.tenantDatabase.PaymentOrderReturn.create(
+            {
+              paymentOrderId: this.paymentOrderId,
+              purchaseReturnId: returnVal.id,
+              amount: returnVal.amount,
+            },
+            { transaction }
+          );
 
-            const returnData = await this.tenantDatabase.PurchaseReturn.findOne({ where: { id: returnVal.id } });
+          const returnData = await this.tenantDatabase.PurchaseReturn.findOne({ where: { id: returnVal.id } });
 
-            // rollback remaining value as before created
-            await this.tenantDatabase.PurchaseReturn.update(
-              { remaining: returnData.remaining + parseInt(existPaymentOrderReturn.amount) },
-              { where: { id: returnVal.id }, transaction }
-            );
-
-            // update remaining value as inputted
-            await this.tenantDatabase.PurchaseReturn.update(
-              { remaining: returnData.remaining - returnVal.amount },
-              { where: { id: returnVal.id }, transaction }
-            );
-          } else {
-            await this.tenantDatabase.PaymentOrderReturn.create(
-              {
-                paymentOrderId: paymentOrder.id,
-                purchaseReturnId: returnVal.id,
-                amount: returnVal.amount,
-              },
-              { transaction }
-            );
-
-            const returnData = await this.tenantDatabase.PurchaseReturn.findOne({ where: { id: returnVal.id } });
-
-            await this.tenantDatabase.PurchaseReturn.update(
-              { remaining: returnData.remaining - returnVal.amount },
-              { where: { id: returnVal.id }, transaction }
-            );
-          }
+          await this.tenantDatabase.PurchaseReturn.update(
+            { remaining: returnData.remaining - returnVal.amount },
+            { where: { id: returnVal.id }, transaction }
+          );
         }
       }
 
+      await this.tenantDatabase.PaymentOrderOther.destroy(
+        { where: { paymentOrderId: this.paymentOrderId } },
+        { transaction }
+      );
       if (others.length > 0) {
-        await this.tenantDatabase.PaymentOrderOther.destroy(
-          { where: { paymentOrderId: this.paymentOrderId } },
-          { transaction }
-        );
         for (const other of others) {
           await this.tenantDatabase.PaymentOrderOther.create(
             {
