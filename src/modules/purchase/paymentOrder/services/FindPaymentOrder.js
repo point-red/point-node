@@ -113,7 +113,11 @@ class FindPaymentOrder {
         paymentOrderId: this.paymentOrderId,
       },
       include: [
-        { model: this.tenantDatabase.ChartOfAccount, as: 'chartOfAccount' },
+        {
+          model: this.tenantDatabase.ChartOfAccount,
+          as: 'chartOfAccount',
+          include: { model: this.tenantDatabase.ChartOfAccountType, as: 'type' },
+        },
         { model: this.tenantDatabase.Allocation, as: 'allocation' },
       ],
     });
@@ -121,10 +125,14 @@ class FindPaymentOrder {
     for (const value of paymentOrderOther) {
       const other = {
         id: value.id,
-        account: value.chartOfAccount.name,
+        account_id: value.chartOfAccount.id,
+        account_name: value.chartOfAccount.name,
+        account_type: value.chartOfAccount.type.name,
+        account_alias: value.chartOfAccount.type.alias,
         notes: value.notes,
         amount: parseInt(value.amount),
-        allocation: value.allocation.name,
+        allocation_id: value.allocation.id,
+        allocation_name: value.allocation.name,
       };
 
       others.push(other);
