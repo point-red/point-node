@@ -45,9 +45,9 @@ class ExportPaymentOrder {
       const { data } = await new findAllPaymentOrder(this.tenantDatabase, this.queries).call();
       data.forEach((e) => {
         const obj = {
-          date: new Date(e.date).toLocaleString('id-ID', { dateStyle: 'long' }),
-          number: e.form_number,
-          supplier: e.supplier,
+          date: new Date(e.form.date).toLocaleString('id-ID', { dateStyle: 'long' }),
+          number: e.form.number,
+          supplier: e.supplier_name,
           paymentMethod: e.payment_method,
           amount: currencyFormat(e.value),
           approvalStatus: e.approval_status,
