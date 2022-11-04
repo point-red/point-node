@@ -132,7 +132,7 @@ class FindPaymentOrder {
         notes: value.notes,
         amount: parseInt(value.amount),
         allocation_id: value.allocation.id,
-        allocation_name: value.allocation.name,
+        allocation_name: value.allocation.alias,
       };
 
       others.push(other);
