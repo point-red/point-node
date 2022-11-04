@@ -126,13 +126,13 @@ class FindPaymentOrder {
       const other = {
         id: value.id,
         account_id: value.chartOfAccount.id,
-        account_name: value.chartOfAccount.name,
+        account_name: value.chartOfAccount.alias,
         account_type: value.chartOfAccount.type.name,
         account_alias: value.chartOfAccount.type.alias,
         notes: value.notes,
         amount: parseInt(value.amount),
         allocation_id: value.allocation.id,
-        allocation_name: value.allocation.alias,
+        allocation_name: value.allocation.name,
       };
 
       others.push(other);
