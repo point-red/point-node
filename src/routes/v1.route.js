@@ -6,7 +6,6 @@ const settingRoute = require('../modules/setting/routes');
 const masterItemRoute = require('../modules/master/item/routes');
 const salesInvoiceRoute = require('../modules/sales/salesInvoice/routes');
 const stockCorrectionRoute = require('../modules/inventory/stockCorrection/routes');
-const paymentOrderRoute = require('../modules/purchase/paymentOrder/routes');
 
 const router = express.Router();
 
@@ -34,10 +33,6 @@ const defaultRoutes = [
   {
     path: '/inventory/corrections',
     route: stockCorrectionRoute,
-  },
-  {
-    path: '/purchase/payment-order',
-    route: paymentOrderRoute,
   },
 ];
 
